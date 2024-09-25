@@ -1,0 +1,10 @@
+## fastapi常用的忽略列表
+
+*.pyc
+*.log
+*.sqlite
+*.sqlite3
+*.db
+*.sqlite-wal
+*.sqlite-shm
+*.sqlite-journal
