@@ -2,7 +2,7 @@ from fastapi import APIRouter
 
 router = APIRouter(
     prefix="/article",
-    tags=["article"],
+    tags=["文章列表"],
 )
 
 
