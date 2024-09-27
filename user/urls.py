@@ -1,6 +1,5 @@
 from fastapi import APIRouter, Form
 from typing import Union, Optional
-from user.models import User
 
 router = APIRouter(prefix="/user", tags=['用户中心'])
 
@@ -12,9 +11,8 @@ async def hello(gl: str, ids: Optional[str] = None, bg: Union[int, None] = None)
 
 
 @router.post("/add")
-async def create_user(user: User):
-    print(user.model_dump())
-    return user
+async def create_user(user: str):
+    return {"user": user}
 
 
 @router.post('/register')

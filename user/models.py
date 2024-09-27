@@ -19,7 +19,7 @@ class Students(Model):
 
 
 class Class(Model):
-    id = fields.IntField(p=True)
+    id = fields.IntField(pk=True)
     name = fields.CharField(max_length=10, description="班级名")
 
 
