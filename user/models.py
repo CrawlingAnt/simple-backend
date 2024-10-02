@@ -9,7 +9,7 @@ class Students(Model):
     no = fields.CharField(max_length=10, description="学号")
 
     # 一对多
-    class_id = fields.ForeignKeyField("models.Class", related_name="students")
+    Class = fields.ForeignKeyField("models.Class", related_name="students")
 
     # 多对多
     course_id = fields.ManyToManyField("models.Course", related_name="students")
@@ -26,6 +26,7 @@ class Class(Model):
 class Course(Model):
     id = fields.IntField(pk=True)
     name = fields.CharField(max_length=10, description="课程名")
+    teacher = fields.ForeignKeyField("models.Teacher", related_name="teachers")
 
 
 class Teacher(Model):
