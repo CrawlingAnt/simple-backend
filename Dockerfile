@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . /app
 
 # 安装项目所需的依赖
-RUN pip install -r requirements.txt
+RUN pip3 install -r requirements.txt
 
 # 暴露FastAPI应用程序运行的端口（通常是8000）
 EXPOSE 8000
