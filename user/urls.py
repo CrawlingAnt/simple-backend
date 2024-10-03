@@ -17,10 +17,10 @@ async def all_students():
 
 # 查询的条件非必填
 @router.post("/query")
-async def hello(student: StudentsValidator):
-    print(student.model_dump())
-    student = await Students.filter(**student.model_dump())
-    return {"message": student}
+async def query_student(student: StudentsValidator):
+    print('---', student)
+    # student = await Students.filter(name=name)
+    return {"message": 1}
 
 
 # 返回除了密码外的数据
