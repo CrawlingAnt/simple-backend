@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Form
 from typing import Union, Optional, List
-from user.models import Students
+from user.models import Students, Course
 from user.validator import StudentsValidator
 from user.validator import StudentsQueryValidator
 
@@ -30,10 +30,17 @@ async def query_student(student: StudentsQueryValidator):
 @router.post("/add")
 async def add_student(student: StudentsValidator):
     print(student.model_dump())
-    # 名称不能重复
-    current = await Students.filter(name=student.name).first()
-    if current:
-        return {"message": "名称不能重复", "code": 400}
-    else:
-        await Students.create(**student.model_dump())
-        return {"message": "操作成功", "code": 200, "data": student.model_dump()}
+    try:
+        # 名称不能重复
+        current = await Students.filter(name=student.name).first()
+        if current:
+            raise Exception("用户名已存在")
+
+        current_student = await Students.create(**student.model_dump(exclude={"course_id"}))
+        # 学生和课程的多对多绑定
+        choose_course = await Course.filter(id__in=student.course_id)
+        print('---', choose_course)
+        await current_student.course_id.add(*choose_course)
+        return {"message": "操作成功", "code": 200}
+    except Exception as e:
+        return {"message": "操作失败", "code": 400, "msg": str(e)}

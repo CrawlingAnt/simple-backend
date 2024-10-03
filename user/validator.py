@@ -1,7 +1,5 @@
 from pydantic import BaseModel
-from typing import Optional, Literal, Any
-
-from pydantic.main import IncEx
+from typing import Optional, List
 
 
 class StudentsValidator(BaseModel):
@@ -9,6 +7,7 @@ class StudentsValidator(BaseModel):
     pwd: str
     no: str
     Class_id: int
+    course_id: List[int]
 
 
 class StudentsQueryValidator(BaseModel):
