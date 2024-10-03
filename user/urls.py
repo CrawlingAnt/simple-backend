@@ -1,10 +1,12 @@
-from fastapi import APIRouter, Form
-from typing import Union, Optional, List
+from fastapi import APIRouter
 from user.models import Students, Course
 from user.validator import StudentsValidator
 from user.validator import StudentsQueryValidator
 
-router = APIRouter(prefix="/user", tags=['用户中心'])
+router = APIRouter(
+    prefix="/user",
+    tags=['用户中心']
+)
 
 
 @router.post("/")
@@ -16,7 +18,6 @@ async def all_students():
     return {"students": students}
 
 
-# 查询的条件非必填
 @router.post("/query")
 async def query_student(student: StudentsQueryValidator):
     print('---', student.model_dump(exclude_none=True, exclude={'name'}))
