@@ -34,3 +34,5 @@ class Teacher(Model):
     name = fields.CharField(max_length=10, description="教师名")
     pwd = fields.CharField(max_length=32, description="密码")
     tno = fields.CharField(max_length=10, description="教师号")
+
+
