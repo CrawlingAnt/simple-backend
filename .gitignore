@@ -9,3 +9,5 @@
 *.sqlite-shm
 *.sqlite-journal
 .venv
+.idea
+__pycache__
