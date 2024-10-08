@@ -1,25 +1,10 @@
-tortoise_orm = {
-    'connections': {
-        # Dict format for connection
-        'default': {
-            'engine': 'tortoise.backends.mysql',
-            'credentials': {
-                'host': '127.0.0.1',
-                'port': '3306',
-                'user': 'root',
-                'password': 'a198man204',
-                'database': 'study_system',
-                'minsize': 1,
-                'maxsize': 10,
-                'charset': 'utf8mb4'
-            }
-        },
-    },
-    'apps': {
-        'models': {
-            'models': ['user.models', "aerich.models"],
-            # If no default_connection specified, defaults to 'default'
-            'default_connection': 'default',
-        }
-    }
-}
+from sqlmodel import create_engine,SQLModel,Session
+
+engine = create_engine("mysql://root:a198man204@127.0.0.1:3306/study_system")
+
+def init_db():
+    SQLModel.metadata.create_all(engine, echo=True)
+
+def get_session():
+    with Session(engine) as session:
+        yield session
