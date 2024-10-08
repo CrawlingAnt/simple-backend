@@ -5,8 +5,8 @@ from datetime import datetime
 class UserType(SQLModel, table=True):
     id: int = Field(primary_key=True)
     name: str = Field(description="用户类型", max_length=20)
-    status: int = Field(description="状态") # 0 正常 1 禁用
-    type: int = Field(description="类型") # 0 管理员 1 用户
+    status: int = Field(description="状态 0 正常 1 禁用")
+    type: int = Field(description="类型 0 管理员 1 用户")
 
 
 class User(SQLModel, table=True):
@@ -51,13 +51,13 @@ class Article(SQLModel, table=True):
     create_time: datetime = Field(description="创建时间")
     update_time: datetime = Field(description="更新时间")
     author: User = Relationship(description="作者",back_populates="articles")
-    status: int = Field(description="状态") # 1 发布 2 草稿 3 删除 4 禁用
+    status: int = Field(description="状态 1 发布 2 草稿 3 删除 4 禁用")
     tags: str = Field(description="标签", max_length=200)
     cover: str = Field(description="封面", max_length=200)
-    is_top: int = Field(description="是否置顶") # 0 否 1 是
-    is_recommend: int = Field(description="是否推荐") # 0 否 1 是
-    is_original: int = Field(description="是否原创") # 0 否 1 是
-    is_comment: int = Field(description="是否评论") # 0 否 1 是
+    is_top: int = Field(description="是否置顶 0 否 1 是")
+    is_recommend: int = Field(description="是否推荐 0 否 1 是")
+    is_original: int = Field(description="是否原创 0 否 1 是")
+    is_comment: int = Field(description="是否评论 0 否 1 是")
 
     categories: list['Category'] = Relationship(description="分类",back_populates="articles",link_model=ArticleLinkCategory)
 
