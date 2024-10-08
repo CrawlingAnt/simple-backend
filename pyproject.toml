@@ -8,12 +8,10 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.12"
 fastapi = "^0.115.0"
-tortoise-orm = "^0.21.6"
-tortoise = "^0.1.1"
 python-multipart = "^0.0.12"
 uvicorn = "^0.31.0"
 aiomysql = "^0.2.0"
-aerich = "^0.7.2"
+sqlmodel = "^0.0.22"
 
 
 [build-system]
