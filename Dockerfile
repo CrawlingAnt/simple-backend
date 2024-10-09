@@ -1,5 +1,5 @@
-# 使用 Python 3.11 版本
-FROM python:3.11
+# 使用 Python 3.12 版本
+FROM python:3.12
 
 # 设置环境变量以使用镜像加速器
 ENV DOCKER_REGISTRY_MIRROR=https://docker.mirrors.ustc.edu.cn
