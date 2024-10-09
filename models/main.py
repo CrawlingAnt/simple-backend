@@ -1,4 +1,4 @@
-from sqlmodel import SQLModel, Field, Relationship
+from sqlmodel import SQLModel, Field, Relationship,TEXT
 from datetime import datetime
 from typing import Optional
 
@@ -22,7 +22,7 @@ class User(SQLModel, table=True):
     create_time: datetime = Field(description="创建时间")
     update_time: datetime = Field(description="更新时间")
 
-    user_type: UserType = Relationship(description="用户类型",back_populates="users")
+    user_type: UserType = Relationship(back_populates="users")
 
 
 class ArticleLinkCategory(SQLModel, table=True):
@@ -40,18 +40,18 @@ class Category(SQLModel, table=True):
     create_time: datetime = Field(description="创建时间")
     update_time: datetime = Field(description="更新时间")
     status: Optional[int] = Field(description="状态 1 正常 2 禁用",default=1)
-    articles: list['Article'] = Relationship(description="文章",back_populates="categories",link_model=ArticleLinkCategory)
+    articles: list['Article'] = Relationship(back_populates="categories",link_model=ArticleLinkCategory)
 
 
 class Article(SQLModel, table=True):
     id: int = Field(primary_key=True)
     title: str = Field(description="标题", max_length=200)
     sub_title:Optional[str] = Field(description="副标题", max_length=200,default=None)
-    content_json:str = Field(description="内容", max_length=10000)
-    content_html:str = Field(description="内容", max_length=10000)
+    content_json:str = Field(description="内容")
+    content_html:str = Field(description="内容")
     create_time: datetime = Field(description="创建时间")
     update_time: datetime = Field(description="更新时间")
-    author: Optional['User'] = Relationship(description="作者",back_populates="articles",default=None)
+    author: Optional['User'] = Relationship(back_populates="articles")
     status: Optional[int] = Field(description="状态 1 发布 2 草稿 3 删除 4 禁用",default=2)
     cover: Optional[str] = Field(description="封面", max_length=200,default=None)
     is_top: Optional[int] = Field(description="是否置顶 2 否 1 是",default=2)
@@ -59,7 +59,7 @@ class Article(SQLModel, table=True):
     is_original: Optional[int] = Field(description="是否原创 2 否 1 是",default=2)
     is_comment: Optional[int] = Field(description="是否评论 2 否 1 是",default=2)
 
-    categories: list['Category'] = Relationship(description="分类",back_populates="articles",link_model=ArticleLinkCategory)
+    categories: list['Category'] = Relationship(back_populates="articles",link_model=ArticleLinkCategory)
 
 
 
