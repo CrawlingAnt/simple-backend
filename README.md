@@ -40,21 +40,38 @@ alembic downgrade
 5. 重启 Docker 守护进程
 
 ## 常见问题
-yield 配合next使用
+
+yield 配合next使用，遇到yield会暂停代码，等待下次的执行再继续执行。
+
 ```python
 from time import sleep
 
-def test():
-    for i in range(1, 5):
-        print(i)
-        yield i
+
+def fun_a():
+    while True:
+        print("a函数")
+        yield
+        sleep(10)
 
 
-s = test()
-while True:
-    try:
-        next(s)
-        sleep(2)
-    except StopIteration:
-        break
+def fun_b(obj):
+    while True:
+        print("b函数")
+        next(obj)
+        print("b函数结束")
+
+
+a = fun_a()
+fun_b(a)
 ```
+
+lambda函数适用于简短的操作，最好不要赋值给一个变量，再去调用，这样不容易解读，下面的使用场景是可以的。lambda x, y: x +
+y。这个lambda函数接受两个参数x和y，并返回它们的和。
+
+```python
+numbers = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]
+sorted_numbers = sorted(numbers, key=lambda x: x % 2)
+```
+
+
+

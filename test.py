@@ -1,15 +1,8 @@
-from time import sleep
-
-def test():
-    for i in range(1, 5):
-        print(i)
-        yield i
+import asyncio
 
 
-s = test()
-while True:
-    try:
-        next(s)
-        sleep(2)
-    except StopIteration:
-        break
+async def fun(i):
+    print(i)
+
+
+loop = asyncio.run(fun(1))
