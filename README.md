@@ -1,8 +1,13 @@
-aerich init -t settings.orm.tortoise_orm 
+aerich init -t settings.orm.tortoise_orm
 aerich init-db
 aerich migrate --name 'init'
 aerich upgrade
 aerich downgrade
+
+alembic init alembic
+alembic revision --autogenerate -m "Initial migration"
+alembic upgrade head
+alembic downgrade
 
 ## 部署说明
 
@@ -33,3 +38,23 @@ aerich downgrade
 3. 使用缓存：`docker build --cache-from python:3.11 -t simple-backend .`
 4. 尝试使用不同的基础镜像，如 `python:3.11-alpine`
 5. 重启 Docker 守护进程
+
+## 常见问题
+yield 配合next使用
+```python
+from time import sleep
+
+def test():
+    for i in range(1, 5):
+        print(i)
+        yield i
+
+
+s = test()
+while True:
+    try:
+        next(s)
+        sleep(2)
+    except StopIteration:
+        break
+```

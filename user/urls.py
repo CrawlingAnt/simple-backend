@@ -9,7 +9,7 @@ router = APIRouter(
 )
 
 
-@router.post("/")
+@router.get("/")
 async def all_students():
     return {"students": 'xixi'}
 
