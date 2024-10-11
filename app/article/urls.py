@@ -1,5 +1,4 @@
-from fastapi import APIRouter, UploadFile, Request
-import os
+from fastapi import APIRouter
 
 router = APIRouter(
     prefix="/article",
@@ -7,17 +6,8 @@ router = APIRouter(
 )
 
 
-@router.post("/")
-async def hello(headers: Request):
-    print(dir(headers))
+@router.get("/")
+async def hello():
     return {"message": "Hello World"}
 
 
-@router.post('/upload')
-async def upload(file: UploadFile):
-    path = os.path.join('assets', file.filename)
-    print(os.getcwd())
-    with open(path, 'wb') as f:
-        for line in file.file:
-            f.write(line)
-    return {"filename": file.filename}

@@ -1,9 +1,5 @@
-result = 10
+import os
 
-def test():
-  global result
-  result = 20
-  print(result)
-
-test()
-print(result)
+print(os.getcwd())
+print(os.path.abspath(__file__ ))
+print(os.path)
