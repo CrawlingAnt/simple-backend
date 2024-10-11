@@ -16,7 +16,7 @@ class UserType(SQLModel, table=True):
 class User(SQLModel, table=True):
     __tablename__ = "user"
     id: Optional[int] = Field(default=None, primary_key=True)
-    user_name: str = Field(description="用户名", max_length=20)
+    user_name: str = Field(description="用户名", max_length=20, unique=True)
     avatar: Optional[str] = Field(default=None, description="头像", max_length=200)
     email: Optional[str] = Field(default=None, description="邮箱", max_length=50)
     password: str = Field(description="密码", max_length=50)
@@ -27,7 +27,7 @@ class User(SQLModel, table=True):
     update_time: datetime = Field(default_factory=datetime.now, description="更新时间")
 
     user_type: Optional[UserType] = Relationship(back_populates="users")
-    user_type_id: Optional[int] = Field(default=None, foreign_key="usertype.id")
+    user_type_id: Optional[int] = Field(default=1, foreign_key="usertype.id")
 
     articles: List["Article"] = Relationship(back_populates="author")
 
