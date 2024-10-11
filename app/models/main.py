@@ -23,6 +23,7 @@ class User(SQLModel, table=True):
     update_time: datetime = Field(description="更新时间")
 
     user_type: UserType = Relationship(back_populates="users")
+    user_type_id: int = Field(description="用户类型id",foreign_key="user_type.id",default=1)
 
 
 class ArticleLinkCategory(SQLModel, table=True):
@@ -51,13 +52,15 @@ class Article(SQLModel, table=True):
     content_html:str = Field(description="内容")
     create_time: datetime = Field(description="创建时间")
     update_time: datetime = Field(description="更新时间")
-    author: Optional['User'] = Relationship(back_populates="articles")
     status: Optional[int] = Field(description="状态 1 发布 2 草稿 3 删除 4 禁用",default=2)
     cover: Optional[str] = Field(description="封面", max_length=200,default=None)
     is_top: Optional[int] = Field(description="是否置顶 2 否 1 是",default=2)
     is_recommend: Optional[int] = Field(description="是否推荐 2 否 1 是",default=2)
     is_original: Optional[int] = Field(description="是否原创 2 否 1 是",default=2)
     is_comment: Optional[int] = Field(description="是否评论 2 否 1 是",default=2)
+    author: Optional['User'] = Relationship(back_populates="articles")
+    author_id: int = Field(description="作者id",foreign_key="user.id")
+
 
     categories: list['Category'] = Relationship(back_populates="articles",link_model=ArticleLinkCategory)
 

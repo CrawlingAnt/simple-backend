@@ -1,4 +1,8 @@
 from fastapi import APIRouter
+from sqlmodel import Session, select
+from models.main import UserType
+from settings.orm import engine
+
 
 router = APIRouter(
     prefix="/article",
@@ -8,6 +12,10 @@ router = APIRouter(
 
 @router.get("/")
 async def hello():
-    return {"message": "Hello World"}
+    with Session(engine) as session:
+        statement = select(UserType)
+        result = session.exec(statement).all()
+
+    return {"message": "Hello World", "content": result}
 
 
