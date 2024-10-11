@@ -3,13 +3,14 @@ from fastapi.staticfiles import StaticFiles
 import user.urls as user_urls
 import article.urls as article_urls
 import uvicorn
-from middleware.blackList import BlackListMiddleware
 from settings.orm import init_db
+from middleware import init_middleware
+
 app = FastAPI()
 app.mount('/static', StaticFiles(directory='assets'), name='static')
 
-# 添加中间件
-app.add_middleware(BlackListMiddleware)
+# 加载中间件
+init_middleware(app)
 
 app.include_router(user_urls.router)
 app.include_router(article_urls.router)

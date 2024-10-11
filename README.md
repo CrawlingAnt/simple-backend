@@ -128,3 +128,20 @@ if __name__ == "__main__":
 ```
 
 
+
+### global关键字 在函数内部修改全局变量，不像js那样会自动向上查找，需要使用global关键字声明
+
+```python
+
+result = 10
+
+def test():
+  global result
+  result = 20
+  print(result)
+
+test()
+print(result)
+```
+
+
