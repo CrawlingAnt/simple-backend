@@ -74,4 +74,52 @@ sorted_numbers = sorted(numbers, key=lambda x: x % 2)
 ```
 
 
+# asyncio的出现是因为Python默认就是同步的和js是反的，asyncio的出现就是为了解决这个问题。 下面的fun1和main2是同步的，如果fun1需要5秒，main2需要等待fun1执行完再执行。
+```python
+import requests
+
+def fun1():
+    result = requests.get("http://127.0.0.1:8000/user/test")
+    print(result.json())
+
+
+def main2():
+    result = requests.get("http://127.0.0.1:8000/user")
+    print(result.json())
+
+
+fun1()
+main2()
+```
+
+# requests 是同步的，aiohttp 是异步的，request是会阻塞进程，除非获取到返回结果，不然会一直阻塞
+```python
+import asyncio
+import aiohttp
+
+async def func1():
+    print(1)
+    async with aiohttp.ClientSession() as session:
+        await session.get("http://127.0.0.1:8000/user/test")
+    print('func1 end')
+
+async def func2():
+    print(2)
+    async with aiohttp.ClientSession() as session:
+        await session.get("http://127.0.0.1:8000/user")
+    print('func2 end')
+
+
+async def main():
+    task1 =  asyncio.create_task(func1())
+    task2 =  asyncio.create_task(func2())
+
+    # result = await asyncio.gather(func1(), func2()) 类似于promise.all
+    await task1
+    await task2
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
 

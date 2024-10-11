@@ -16,6 +16,8 @@ pymysql = "^1.1.1"
 cryptography = "^43.0.1"
 sqlmodel = "^0.0.22"
 alembic = "^1.13.3"
+requests = "^2.32.3"
+aiohttp = "^3.10.10"
 
 
 [build-system]
