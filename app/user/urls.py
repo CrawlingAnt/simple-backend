@@ -1,10 +1,11 @@
 from fastapi import APIRouter, HTTPException
-from user.validator import AddUser
+from user.validator import AddUser,QueryUser
 from common.utils import get_password_hash
 from settings.orm import engine
 from sqlmodel import Session, select
 from models.main import User
 from common.constant import *
+
 
 router = APIRouter(
     prefix="/user",
@@ -12,9 +13,15 @@ router = APIRouter(
 )
 
 
-@router.get("/")
-async def all_students():
-    return {"students": 'xixi'}
+@router.post("/")
+async def all_students(user: QueryUser):
+    print(user.pageSize)
+    with Session(engine) as session:
+        filters = user.model_dump(exclude_unset=True, exclude_none=True)
+        # 使用 SQLModel 的过滤功能
+        query = select(User).filter_by(**filters)
+        users = session.exec(query).all()
+        return {"users": users}
 
 
 @router.post("/add")
