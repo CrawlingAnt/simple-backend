@@ -22,6 +22,6 @@ def handle_exceptions(func):
         except Exception as e:
             return JSONResponse(
                 status_code=500,
-                content=APIResponse(code=500, message="Internal Server Error").model_dump()
+                content=APIResponse(code=500, message=str(e)).model_dump()
             )
     return wrapper
