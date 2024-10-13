@@ -40,6 +40,7 @@ async def process_user(user: AddUser, session: AsyncSession):
     if is_exists:
         raise HTTPException(status_code=400, detail=USER_EXISTS)
     hashed_password = get_password_hash(user.password)
+    print(hashed_password)
     new_user = User(user_name=user.user_name, hashed_password=hashed_password, password=user.password)
     session.add(new_user)
 
