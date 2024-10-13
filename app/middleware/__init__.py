@@ -1,5 +1,6 @@
 from middleware.process_time import add_process_time, log_request
 from middleware.cors import add_cors_middleware
+
 _middleware_initialized = False
 
 def init_middleware(app):

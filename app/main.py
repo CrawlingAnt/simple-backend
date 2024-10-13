@@ -1,13 +1,15 @@
-from fastapi import FastAPI, Request, Response
+from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 import user.urls as user_urls
 import article.urls as article_urls
 import uvicorn
 from middleware import init_middleware
+from common.global_catch import init_global_exception_handler
 
 app = FastAPI()
 app.mount('/static', StaticFiles(directory='assets'), name='static')
 
+init_global_exception_handler(app)
 # 加载中间件
 init_middleware(app)
 

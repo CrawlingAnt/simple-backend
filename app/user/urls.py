@@ -6,8 +6,8 @@ from sqlmodel import Session, select
 from models.main import User
 from common.constant import *
 from sqlalchemy.ext.asyncio import AsyncSession
-from datetime import datetime
-
+from common.reponse import api_response
+from common.http_exception import handle_exceptions
 
 router = APIRouter(
     prefix="/user",
@@ -16,6 +16,7 @@ router = APIRouter(
 
 
 @router.post("/")
+@handle_exceptions
 async def all_students(user: QueryUser):
     with Session(engine) as session:
         filters = user.model_dump(exclude_unset=True, exclude_none=True)
@@ -35,7 +36,7 @@ async def test(user: AddUser, session: AsyncSession = Depends(get_async_session)
     try:
         session.add(new_user)
         await session.commit()
-        return {"message": "User created successfully"}
+        return api_response(message="User created successfully")
     except Exception as e:
         await session.rollback()
         raise HTTPException(status_code=500, detail=str(e))

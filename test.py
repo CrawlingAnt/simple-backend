@@ -31,5 +31,3 @@ async def add_python_user():
       }
       async with session.post('http://127.0.0.1:8000/user/add',json=body) as response:
         print(await response.text())
-
-asyncio.run(add_python_user())

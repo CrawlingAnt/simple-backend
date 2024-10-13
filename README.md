@@ -145,3 +145,29 @@ print(result)
 ```
 
 
+### 使用装饰器，from functools import wraps，注意这个函数的使用，可以保留了被装饰函数的原始元数据
+
+```python
+from functools import wraps
+from fastapi import Request
+from fastapi.responses import JSONResponse
+from .models import APIResponse
+from .exceptions import APIException
+
+def handle_exceptions(func):
+    @wraps(func)
+    async def wrapper(*args, **kwargs):
+        try:
+            return await func(*args, **kwargs)
+        except APIException as e:
+            return JSONResponse(
+                status_code=e.status_code,
+                content=APIResponse(code=e.status_code, message=str(e.detail)).dict()
+            )
+        except Exception as e:
+            return JSONResponse(
+                status_code=500,
+                content=APIResponse(code=500, message="Internal Server Error").dict()
+            )
+    return wrapper
+```
