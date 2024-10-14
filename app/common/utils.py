@@ -4,6 +4,10 @@ from passlib.context import CryptContext
 from logging.handlers import TimedRotatingFileHandler
 from fastapi import Request
 from datetime import datetime
+from dotenv import load_dotenv
+from pydantic import MySQLDsn
+
+load_dotenv()
 
 pwd_context = CryptContext(schemes=["bcrypt"], bcrypt__rounds=10)
 
@@ -22,6 +26,22 @@ def get_request_info(request:Request):
     url = request.url
 
     return f"{start_time} 收到请求: {method} - {url}"
+
+
+def get_db_url():
+    db_url:MySQLDsn = MySQLDsn.build(
+        scheme=os.getenv("DB_SCHEME"),
+        username=os.getenv("DB_USERNAME"),
+        password=os.getenv("DB_PASSWORD"),
+        host=os.getenv("DB_HOST"),
+        port=int(os.getenv("DB_PORT")),
+        path=os.getenv("DB_NAME"),
+    )
+
+    pool_size = int(os.getenv("DB_POOL_SIZE"))
+    max_overflow = int(os.getenv("DB_MAX_OVERFLOW"))
+
+    return db_url.unicode_string(),pool_size,max_overflow
 
 
 def init_log():
@@ -72,3 +92,4 @@ def init_log():
 
 
 logger = init_log()
+db_url,pool_size,max_overflow = get_db_url()
