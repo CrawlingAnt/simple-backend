@@ -20,9 +20,9 @@ router = APIRouter(
 async def all_students(user: QueryUser, session: AsyncSession = Depends(get_async_session)):
     filters = user.model_dump(exclude_unset=True, exclude_none=True)
     # 使用 SQLModel 的过滤功能
-    users = await session.execute(select(User).where())
-    return {"users": users.scalars().all()}
-
+    query = await session.execute(select(User).where())
+    users = query.scalars().all()
+    return api_response(data=users)
 
 @router.post("/add")
 async def test(user: AddUser, session: AsyncSession = Depends(get_async_session)):
@@ -34,7 +34,7 @@ async def test(user: AddUser, session: AsyncSession = Depends(get_async_session)
     try:
         session.add(new_user)
         await session.commit()
-        return api_response(message="User created successfully")
+        return  api_response(message="User created successfully")
     except Exception as e:
         await session.rollback()
         raise HTTPException(status_code=500, detail=str(e))
