@@ -20,9 +20,10 @@ router = APIRouter(
 async def all_students(user: QueryUser, session: AsyncSession = Depends(get_async_session)):
     filters = user.model_dump(exclude_unset=True, exclude_none=True)
     # 使用 SQLModel 的过滤功能
-    query = await session.execute(select(User).where())
+    query = await session.execute(select(User).where(**filters))
     users = query.scalars().all()
     return api_response(data=users)
+
 
 @router.post("/add")
 async def test(user: AddUser, session: AsyncSession = Depends(get_async_session)):
