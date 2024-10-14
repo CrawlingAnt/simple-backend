@@ -32,7 +32,7 @@ class Category(SQLModel, table=True):
     __tablename__ = "categories"
     id: Optional[int] = Field(default=None, primary_key=True)
     name: str = Field(description="分类名", max_length=20)
-    description: str = Field(description="描述", max_length=200)
+    description: str = Field(description="描述", max_length=100)
     create_time: datetime = Field(default_factory=datetime.now, description="创建时间")
     update_time: datetime = Field(default_factory=datetime.now, description="更新时间")
     status: int = Field(default=1, description="状态 1 正常 2 禁用")
