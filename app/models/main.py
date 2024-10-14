@@ -1,4 +1,4 @@
-from sqlmodel import SQLModel, Field, Relationship
+from sqlmodel import SQLModel, Field, Relationship, Column
 from sqlalchemy import Text
 from datetime import datetime
 from typing import Optional, List, ForwardRef
@@ -49,10 +49,10 @@ class Category(SQLModel, table=True):
     create_time: datetime = Field(default_factory=datetime.now, description="创建时间")
     update_time: datetime = Field(default_factory=datetime.now, description="更新时间")
     status: int = Field(default=1, description="状态 1 正常 2 禁用")
-    articles: List["Article"] = Relationship(back_populates="categories", link_model=ArticleLinkCategory)
+    articles: List["article"] = Relationship(back_populates="categories", link_model=ArticleLinkCategory)
 
 
-Article = ForwardRef("Article")
+article = ForwardRef("Article")
 
 
 class Article(SQLModel, table=True):
@@ -60,8 +60,8 @@ class Article(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     title: str = Field(description="标题", max_length=200)
     sub_title: Optional[str] = Field(default=None, description="副标题", max_length=200)
-    content_json: str = Field(sa_column=Text, description="内容 (JSON 格式)")
-    content_html: str = Field(sa_column=Text, description="内容 (HTML 格式)")
+    content_json: str = Column(sa_column=Text, comment="内容json")
+    content_html: str = Column(sa_column=Text, comment="内容html")
     create_time: datetime = Field(default_factory=datetime.now, description="创建时间")
     update_time: datetime = Field(default_factory=datetime.now, description="更新时间")
     status: int = Field(default=2, description="状态 1 发布 2 草稿 3 删除 4 禁用")
@@ -75,8 +75,5 @@ class Article(SQLModel, table=True):
 
     categories: List[Category] = Relationship(back_populates="articles", link_model=ArticleLinkCategory)
 
+
 Article.model_rebuild()
-
-
-
-
