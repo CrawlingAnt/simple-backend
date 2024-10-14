@@ -3,7 +3,7 @@ from user.validator import AddUser,QueryUser
 from common.utils import get_password_hash
 from settings.orm import get_async_session
 from sqlmodel import select
-from models.main import User
+from models.user import User
 from common.constant import *
 from sqlalchemy.ext.asyncio import AsyncSession
 from common.reponse import api_response
