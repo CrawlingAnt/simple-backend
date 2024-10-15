@@ -17,6 +17,7 @@ async def all_students(session: AsyncSession = Depends(get_async_session)):
     data = stmt.scalars().all()
     return api_response(data=data)
 
+
 @user_router.post("/add")
 async def test(user: UserCreate, session: AsyncSession = Depends(get_async_session)):
     stmt = await session.execute(select(User).where(User.user_name == user.user_name))
