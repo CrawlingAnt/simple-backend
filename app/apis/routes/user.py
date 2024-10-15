@@ -4,16 +4,18 @@ from settings.orm import get_async_session
 from common.constant import *
 from sqlalchemy.ext.asyncio import AsyncSession
 from common.reponse import api_response
-from common.http_exception import handle_exceptions
-from models.user import User,UserCreate
+from models.user import User, UserCreate
 from sqlalchemy.future import select
+
+
 user_router = APIRouter()
 
 
 @user_router.get("/")
-async def all_students():
-    return api_response(data='Hello World')
-
+async def all_students(session: AsyncSession = Depends(get_async_session)):
+    stmt = await session.execute(select(User))
+    data = stmt.scalars().all()
+    return api_response(data=data)
 
 @user_router.post("/add")
 async def test(user: UserCreate, session: AsyncSession = Depends(get_async_session)):

@@ -6,6 +6,7 @@ from fastapi import Request
 from datetime import datetime
 from dotenv import load_dotenv
 from pydantic import MySQLDsn
+from sqlalchemy.orm import class_mapper
 
 load_dotenv()
 
@@ -42,6 +43,17 @@ def get_db_url():
     max_overflow = int(os.getenv("DB_MAX_OVERFLOW"))
 
     return db_url.unicode_string(),pool_size,max_overflow
+
+
+# 将sqlalchemy模型转换为字典
+def object_as_dict(obj):
+    def convert_datetime(value):
+        if isinstance(value, datetime):
+            return value.isoformat()
+        return value
+
+    return {c.key: convert_datetime(getattr(obj, c.key))
+            for c in class_mapper(obj.__class__).columns}
 
 
 def init_log():
