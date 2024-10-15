@@ -12,15 +12,21 @@ async def log_request(request: Request, call_next):
         return await call_next(request)
     else:
         start_time = datetime.now()
-        logger.info(f"{start_time} 收到请求: {request.method} {request.url}")
+        request_data = {}
+        if request.method == "POST":
+            request_data = await request.json()
+        # 获取表单数据
+        if request.headers.get("Content-Type") == "application/x-www-form-urlencoded":
+            request_data = await request.form()
+
+        logger.info(f"{start_time} 收到请求: {request.method} {request.url} {request_data}")
 
         response = await call_next(request)
-
         end_time = datetime.now()
 
         # 处理流式响应
         if isinstance(response, StreamingResponse):
-            logger.info(f"{end_time} 返回流式响应 in {end_time - start_time}")
+            logger.info(f"{end_time} 返回流式响应耗时: {end_time - start_time}")
             return response
 
         # 获取响应体
@@ -34,7 +40,7 @@ async def log_request(request: Request, call_next):
         except json.JSONDecodeError:
             response_data = response_body.decode('utf-8')
 
-        logger.info(f"{end_time} 返回响应: {response_data} in {end_time - start_time}")
+        logger.info(f"{end_time} 返回响应: {response_data} 耗时: {end_time - start_time}")
 
     # 重建响应
     return Response(

@@ -2,6 +2,8 @@ from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from .base import Base
+from pydantic import BaseModel
+from typing import Optional
 
 class User(Base):
     __tablename__ = "users"
@@ -28,3 +30,11 @@ class UserType(Base):
     users = relationship("User", back_populates="user_type")
 
 
+
+class UserCreate(BaseModel):
+    user_name: str
+    password: str
+    avatar: Optional[str] = None
+    email: Optional[str] = None
+    phone: Optional[str] = None
+    id: Optional[int] = None
