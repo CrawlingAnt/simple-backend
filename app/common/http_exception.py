@@ -1,11 +1,11 @@
 from fastapi import HTTPException
 from functools import wraps
-from common.reponse import api_response
+from app.common.reponse import api_response
+
 
 class APIException(HTTPException):
     def __init__(self, status_code: int, detail: str):
         super().__init__(status_code=status_code, detail=detail)
-
 
 
 def handle_exceptions(func):
@@ -21,4 +21,5 @@ def handle_exceptions(func):
             return api_response(
                 message=str(e)
             )
+
     return wrapper

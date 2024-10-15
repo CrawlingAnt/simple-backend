@@ -2,11 +2,11 @@ from fastapi import Request, Response
 from fastapi.responses import StreamingResponse
 from datetime import datetime
 import json
-from common.utils import logger
+from app.common.utils import logger
 
 
 async def log_request(request: Request, call_next):
-    no_log_path = ["docs","openapi.json"]
+    no_log_path = ["docs", "openapi.json"]
     query_path = request.url.path.split("/")[1]
     if query_path in no_log_path:
         return await call_next(request)
@@ -49,6 +49,7 @@ async def log_request(request: Request, call_next):
         headers=dict(response.headers),
         media_type=response.media_type
     )
+
 
 def init_log_request_middleware(app):
     app.middleware("http")(log_request)

@@ -21,7 +21,7 @@ def get_password_hash(password):
     return pwd_context.hash(password)
 
 
-def get_request_info(request:Request):
+def get_request_info(request: Request):
     start_time = datetime.now()
     method = request.method
     url = request.url
@@ -30,7 +30,7 @@ def get_request_info(request:Request):
 
 
 def get_db_url():
-    db_url:MySQLDsn = MySQLDsn.build(
+    db_url_str: MySQLDsn = MySQLDsn.build(
         scheme=os.getenv("DB_SCHEME"),
         username=os.getenv("DB_USERNAME"),
         password=os.getenv("DB_PASSWORD"),
@@ -39,10 +39,10 @@ def get_db_url():
         path=os.getenv("DB_NAME"),
     )
 
-    pool_size = int(os.getenv("DB_POOL_SIZE"))
-    max_overflow = int(os.getenv("DB_MAX_OVERFLOW"))
+    pool_size_num = int(os.getenv("DB_POOL_SIZE"))
+    max_overflow_num = int(os.getenv("DB_MAX_OVERFLOW"))
 
-    return db_url.unicode_string(),pool_size,max_overflow
+    return db_url_str.unicode_string(), pool_size_num, max_overflow_num
 
 
 # 将sqlalchemy模型转换为字典
@@ -62,8 +62,9 @@ def init_log():
     if not os.path.exists(log_directory):
         os.makedirs(log_directory)
 
-    logger = logging.getLogger(__name__)
-    logger.setLevel(logging.INFO)  # 设置日志级别
+    logger_object = logging.getLogger(__name__)
+    logger_object.setLevel(logging.INFO)  # 设置日志级别
+    stream_handler = logging.StreamHandler()
 
     # 日志级别和对应的文件名
     log_levels = {
@@ -92,16 +93,15 @@ def init_log():
         file_handler.setFormatter(formatter)
 
         # 添加处理器到 logger
-        logger.addHandler(file_handler)
+        logger_object.addHandler(file_handler)
+        stream_handler.setFormatter(formatter)
 
     # 创建 StreamHandler 用于控制台输出
-    stream_handler = logging.StreamHandler()
     stream_handler.setLevel(logging.INFO)  # 控制台只输出 INFO 及以上级别的日志
-    stream_handler.setFormatter(formatter)
-    logger.addHandler(stream_handler)
+    logger_object.addHandler(stream_handler)
 
-    return logger
+    return logger_object
 
 
 logger = init_log()
-db_url,pool_size,max_overflow = get_db_url()
+db_url, pool_size, max_overflow = get_db_url()

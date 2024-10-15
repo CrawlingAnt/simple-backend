@@ -1,7 +1,8 @@
 from fastapi import Request
 from fastapi.responses import JSONResponse
+ 
 
-async def black_list_middleware(request:Request,call_next):
+async def black_list_middleware(request: Request, call_next):
     black_list = [""]
     if request.client.host in black_list:
         return JSONResponse(status_code=403, content={"message": "Forbidden"})

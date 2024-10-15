@@ -4,6 +4,7 @@ from datetime import datetime
 from .base import Base
 from pydantic import BaseModel
 from typing import Optional
+ 
 
 class User(Base):
     __tablename__ = "users"
@@ -21,6 +22,7 @@ class User(Base):
     user_type = relationship("UserType", back_populates="users")
     articles = relationship("Article", back_populates="user")
 
+
 class UserType(Base):
     __tablename__ = "user_types"
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -28,7 +30,6 @@ class UserType(Base):
     status = Column(Integer, default=1, comment="状态 1 正常 2 禁用")
     type = Column(Integer, default=2, comment="类型 1 管理员 2 普通用户")
     users = relationship("User", back_populates="user_type")
-
 
 
 class UserCreate(BaseModel):
