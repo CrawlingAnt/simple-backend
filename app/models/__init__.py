@@ -1,6 +1,6 @@
-from .article import Article, Category
+from .base import Base
+from .article import Article
+from .category import Category
 from .user import User, UserType
-from .many_to_many import ArticleLinkCategory
-from .article import SQLModel
 
-__all__ = ["Article", "Category", "User", "UserType", "ArticleLinkCategory", "SQLModel"]
+__all__ = ["Article", "Category", "User", "UserType", "Base"]
