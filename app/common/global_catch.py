@@ -1,5 +1,5 @@
 from fastapi import Request, FastAPI
-from app.common.utils import logger
+from app.common.log_util import logger
 from app.common.utils import get_request_info
 from fastapi.responses import JSONResponse
 

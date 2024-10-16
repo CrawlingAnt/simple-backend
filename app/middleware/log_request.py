@@ -2,7 +2,7 @@ from fastapi import Request, Response
 from fastapi.responses import StreamingResponse
 from datetime import datetime
 import json
-from app.common.utils import logger
+from app.common.log_util import logger
 
 
 async def log_request(request: Request, call_next):
