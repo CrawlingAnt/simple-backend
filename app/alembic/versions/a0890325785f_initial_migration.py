@@ -1,8 +1,8 @@
 """Initial migration
 
-Revision ID: 5fa31c2e5f90
+Revision ID: a0890325785f
 Revises: 
-Create Date: 2024-10-15 16:30:47.211649
+Create Date: 2024-10-16 20:12:31.977623
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '5fa31c2e5f90'
+revision: str = 'a0890325785f'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -27,6 +27,13 @@ def upgrade() -> None:
     sa.Column('create_time', sa.DateTime(), nullable=True, comment='创建时间'),
     sa.Column('update_time', sa.DateTime(), nullable=True, comment='更新时间'),
     sa.Column('status', sa.Integer(), nullable=True, comment='状态 1 正常 2 禁用'),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('logs',
+    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('level', sa.String(length=20), nullable=True, comment='日志级别 INFO WARN ERROR'),
+    sa.Column('message', sa.String(length=200), nullable=True, comment='日志信息'),
+    sa.Column('create_time', sa.DateTime(), nullable=True, comment='创建时间'),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('user_types',
@@ -78,5 +85,6 @@ def downgrade() -> None:
     op.drop_table('articles')
     op.drop_table('users')
     op.drop_table('user_types')
+    op.drop_table('logs')
     op.drop_table('categories')
     # ### end Alembic commands ###
