@@ -171,3 +171,14 @@ def handle_exceptions(func):
             )
     return wrapper
 ```
+
+
+### zip函数，将两个列表合并成一个元组列表
+
+```python
+list1 = [1, 2, 3]
+list2 = [4, 5, 6]
+result = list(zip(list1, list2))
+print(result)
+```
+

@@ -7,8 +7,13 @@ import asyncio
 async def pull_logs_to_db(message: str, level="INFO"):
     async with async_session_factory() as session:
         log_entry = Logs(level=level, message=message)
-        session.add(log_entry)
-        await session.commit()
+        try:
+            session.add(log_entry)
+            await session.commit()
+        except Exception as e:
+            await session.rollback()
+            logger.error(str(e))
+            raise
 
 
 class LoggerDbHandler(logging.Handler):

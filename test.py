@@ -18,4 +18,16 @@ async def add_python_user():
                 print(await response.text())
 
 
-asyncio.run(add_python_user())
+# asyncio.run(add_python_user())
+
+data = {
+    "user_name": get_random_string(5),
+    "password": get_random_string(5),
+}
+
+result = {i + '1': data[i] + '1' for i in data}
+result_one = [[i, data[i]] for i in data]
+result_two = '123'
+print(result)
+print(result_one)
+print(result_two)
