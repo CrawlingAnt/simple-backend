@@ -182,3 +182,43 @@ result = list(zip(list1, list2))
 print(result)
 ```
 
+### python中的==和is的区别，==是值相等，is是内存地址相等
+
+```python
+a = [1, 2, 3]
+b = [1, 2, 3]
+print(a == b)
+print(a is b)
+```
+
+### 使用 dataclass 装饰器可以更简洁地定义类，特别是当主要目的是存储数据时。它会自动生成一些常用的方法，如 __init__、__repr__ 和 __eq__ 等，减少了手动编写这些方法的工作量。dataclass中的frozen属性，frozen=True时，数据是不可变的，frozen=False时，数据是可变的。
+
+```python
+from dataclasses import dataclass
+
+@dataclass(frozen=False)
+class User:
+  password: str
+  user_name: str = '10'
+
+
+  def __str__(self):
+    return f'user_name: {self.user_name}, password: {self.password}'
+
+
+user = User('123', '234')
+user2 = User(password='234')
+user2.user_name = '999'
+print(user, user2)
+```
+
+### json.dumps和json.loads的使用，json.dumps是将python对象转换为json字符串，json.loads是将json字符串转换为python对象
+
+```python
+import json
+
+json_str = '{"name": "John", "age": 30, "city": "New York"}'
+data = json.dumps(json_str)
+data1 = json.loads(data)
+print(data,data1)
+```
